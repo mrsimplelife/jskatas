@@ -3,12 +3,17 @@
 // Follow the hints of the failure messages!
 
 import assert from "assert";
-// declare module "assert" {
-//   function assert(value: unknown, message?: string | Error): asserts value;
-//   namespace assert {
-//     function equalToNaN(actual?: any): asserts actual;
-//   }
-// }
+
+function equalToNaN(actual: any) {
+  assert(
+    isNaN(actual),
+    new assert.AssertionError({
+      message: "Expected `parseInt() to return `NaN`.",
+      actual,
+      expected: NaN,
+    })
+  );
+}
 describe("`parseInt()` parses a string and returns an integer.", () => {
   it("it is a global function", () => {
     var whatType = "function";
@@ -67,14 +72,3 @@ describe("`parseInt()` parses a string and returns an integer.", () => {
     });
   });
 });
-
-function equalToNaN(actual: any) {
-  assert(
-    isNaN(actual),
-    new assert.AssertionError({
-      message: "Expected `parseInt() to return `NaN`.",
-      actual,
-      expected: NaN,
-    })
-  );
-}
