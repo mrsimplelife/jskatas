@@ -4,16 +4,6 @@
 
 import assert from "assert";
 
-function equalToNaN(actual: any) {
-  assert(
-    isNaN(actual),
-    new assert.AssertionError({
-      message: "Expected `parseInt() to return `NaN`.",
-      actual,
-      expected: NaN,
-    })
-  );
-}
 describe("`parseInt()` parses a string and returns an integer.", () => {
   it("it is a global function", () => {
     var whatType = "function";
@@ -55,16 +45,16 @@ describe("`parseInt()` parses a string and returns an integer.", () => {
       assert.equal(parseInt(hex, 16), -15);
     });
     it("a string, a word made of letters only THEN returns `NaN` (not a number)", () => {
-      var word = "word";
-      equalToNaN(parseInt(word));
+      var word = " word";
+      assert.equalToNaN(parseInt(word));
     });
     it("an empty object literal THEN returns `NaN`", () => {
       var emptyObject: any = +{};
-      equalToNaN(parseInt(emptyObject));
+      assert.equalToNaN(parseInt(emptyObject));
     });
     it("an empty array THEN returns `NaN`", () => {
       var emptyArray: any = [];
-      equalToNaN(parseInt(emptyArray));
+      assert.equalToNaN(parseInt(emptyArray));
     });
     it("an array with `[123,456]` THEN converts it to a string and then to an integer", () => {
       var filledArray: any = [123, 456];
@@ -72,3 +62,17 @@ describe("`parseInt()` parses a string and returns an integer.", () => {
     });
   });
 });
+
+assert.equalToNaN = (actual) => {
+  assert(
+    isNaN(actual),
+    new assert.AssertionError({
+      message: "Expected `parseInt() to return `NaN`.",
+      actual,
+      expected: NaN,
+    })
+  );
+};
+declare module "assert" {
+  function equalToNaN(actual: number): void;
+}

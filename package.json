@@ -2,7 +2,6 @@
   "name": "node-starter",
   "version": "0.0.0",
   "scripts": {
-    "start": "ts-node src/index.ts",
     "test": "jest --watchAll"
   },
   "devDependencies": {
